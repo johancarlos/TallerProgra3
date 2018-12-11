@@ -31,7 +31,10 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="">Favorites</a>
+                <a class="nav-link " href="">Favorites</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="">Shared Posts</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -40,6 +43,29 @@
         </form>
     </div>
 </nav>
-    <h1> shared posts list </h1>
+    <h1> List of Shared Posts </h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Link</th>
+        <th scope="col">Text</th>
+    </tr>
+    </thead>
+    <tbody th:each="post : ${postList}" th:if="${post.id} == ${sharedPost.findSharedPostById(post.id)}" >
+    <tr>
+        <th scope="row" th:text="${post.id}"></th>
+        <td th:text="${user}"></td>
+        <td th:text="${post.link}"></td>
+        <td th:text="${post.text}"></td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+
 </body>
 </html>

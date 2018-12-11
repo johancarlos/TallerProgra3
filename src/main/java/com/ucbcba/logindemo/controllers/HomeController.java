@@ -6,6 +6,7 @@ import com.ucbcba.logindemo.entities.Post;
 import com.ucbcba.logindemo.repositories.FavoritePostRepository;
 import com.ucbcba.logindemo.repositories.HidedPostRepository;
 import com.ucbcba.logindemo.repositories.ReportedPostRepository;
+import com.ucbcba.logindemo.repositories.SharePostRepository;
 import com.ucbcba.logindemo.services.PostService;
 import com.ucbcba.logindemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class HomeController {
 
     @Autowired
     HidedPostRepository hiddenPostRepository;
+
+    @Autowired
+    SharePostRepository sharePostRepository;
 
 
 
@@ -72,6 +76,8 @@ public class HomeController {
         model.addAttribute("reportedPost", reportedPostRepository);
         model.addAttribute("favoritePost",favoritePostRepository);
         model.addAttribute("hidenPost", hiddenPostRepository);
+        model.addAttribute("sharedPost", sharePostRepository);
+
         return "welcome";
     }
 }

@@ -10,12 +10,12 @@ import javax.transaction.Transactional;
 
 @Transactional
 public interface SharePostRepository extends CrudRepository<SharePost,Integer> {
-    @Query("SELECT u FROM SharePost u WHERE u.user = :user and u.post = :post")
-    SharePost findUserByStatusAndNameNamedParams(
-            @Param("post") Integer post,
-            @Param("user") Integer user);
+    @Query("SELECT u FROM SharePost u WHERE  u.post = :post")
+    SharePost findSharedPostById(
+            @Param("post") Integer post);
+           // @Param("user") Integer user);
 
 
-    @Query("SELECT DISTINCT r.post FROM SharePost r")
-    Iterable<Integer> findDistinctStates();
+   // @Query("SELECT DISTINCT r.post FROM SharePost r")
+   // Iterable<Integer> findDistinctStates();
 }
