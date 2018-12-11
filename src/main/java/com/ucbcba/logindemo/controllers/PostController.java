@@ -166,8 +166,10 @@ public class PostController {
     {
         User user = userService.findUserById(id);
         User userLogged = userService.findUserById(id);
+        Iterable<Post> postList = postService.listAllPosts();
         model.addAttribute("user",user.getUsername());
         model.addAttribute("userLogged", userLogged.getId());
+        model.addAttribute("postList", postList);
         return "favorites";
     }
 
