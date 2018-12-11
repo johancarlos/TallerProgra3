@@ -4,6 +4,7 @@ import com.ucbcba.logindemo.entities.*;
 import com.ucbcba.logindemo.repositories.FavoritePostRepository;
 import com.ucbcba.logindemo.repositories.HidedPostRepository;
 import com.ucbcba.logindemo.repositories.ReportedPostRepository;
+import com.ucbcba.logindemo.repositories.SharePostRepository;
 import com.ucbcba.logindemo.services.CategoryService;
 import com.ucbcba.logindemo.services.PostService;
 import com.ucbcba.logindemo.services.UserService;
@@ -37,6 +38,7 @@ public class PostController {
     CategoryService categoryService;
     UserService userService;
 
+
     @Autowired
     private ReportedPostRepository reportedPostRepository;
 
@@ -45,6 +47,9 @@ public class PostController {
 
     @Autowired
     private HidedPostRepository hidedPostRepository;
+
+    @Autowired
+    private SharePostRepository sharePostRepository;
 
     @Autowired
     public void setPostService(PostService postService) {
@@ -139,6 +144,16 @@ public class PostController {
         return "redirect:/welcome";
     }
 
+    @RequestMapping(value = "/post/sharepost/{id}/{user}", method = RequestMethod.GET)
+    public String sharePosts(@PathVariable Integer id, @PathVariable Integer user, Model model)
+    {
+        SharePost share = new SharePost();
+        share.setPost(id);
+        share.setUser(user);
+        sharePostRepository.save(share);
+        return "redirect:/profile";
+    }
+
 
     @RequestMapping(value = "/post/hidepost", method = RequestMethod.POST)
     public ResponseEntity hidepost(@ModelAttribute("post") HidedPost pst)
@@ -173,6 +188,18 @@ public class PostController {
         return "favorites";
     }
 
+
+    @RequestMapping(value = "/user/Profile/sharePost/{id}")
+    public String shared(@PathVariable Integer id, Model model)
+    {
+        User user = userService.findUserById(id);
+        User userLogged = userService.findUserById(id);
+        Iterable<Post> postList = postService.listAllPosts();
+        model.addAttribute("user",user.getUsername());
+        model.addAttribute("userLogged", userLogged.getId());
+        model.addAttribute("postList", postList);
+        return "sharepost";
+    }
 
 
     @RequestMapping("/post/{id}/{uid}")
