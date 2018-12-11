@@ -140,8 +140,6 @@
     </div>
 </section>
 
-</br>
-
     <section class="main container" th:each="post : ${postList}">
         <div th:if="${hidenPost.findHidedPostByUserId(userLooged, post.id)} == null">
             <div class="card" th:if="${!post.link.contains('localhost')}" th:id="${post.id}">
@@ -170,6 +168,7 @@
                     <div id="text" th:if="${favoritePost.findUserByStatusAndNameNamedParams(post.id,userLooged)} == null">
                         <a class="btn btn-primary" th:href="${ '/post/favoritpost/' + post.getId() + '/' + userLooged } "><b> Mark as favorite</b></a>
                     </div>
+                    <a class="btn btn-secondary" th:href="${ '/post/shareposts/' + post.getId() + '/' + userLooged } "><b> Share Post</b></a>
                 </div>
             </div>
         </div>

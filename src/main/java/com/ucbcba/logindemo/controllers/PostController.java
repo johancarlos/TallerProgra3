@@ -144,14 +144,14 @@ public class PostController {
         return "redirect:/welcome";
     }
 
-    @RequestMapping(value = "/post/sharepost/{id}/{user}", method = RequestMethod.GET)
-    public String sharePosts(@PathVariable Integer id, @PathVariable Integer user, Model model)
+    @RequestMapping(value = "/post/shareposts/{id}/{user}", method = RequestMethod.GET)
+    public String shareposts(@PathVariable Integer id, @PathVariable Integer user, Model model)
     {
         SharePost share = new SharePost();
         share.setPost(id);
         share.setUser(user);
         sharePostRepository.save(share);
-        return "redirect:/profile";
+        return "redirect:/welcome";
     }
 
 
@@ -189,7 +189,7 @@ public class PostController {
     }
 
 
-    @RequestMapping(value = "/user/Profile/sharePost/{id}")
+    @RequestMapping(value = "/user/profile/sharePost/{id}")
     public String shared(@PathVariable Integer id, Model model)
     {
         User user = userService.findUserById(id);
