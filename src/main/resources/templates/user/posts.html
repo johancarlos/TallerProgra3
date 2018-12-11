@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!--meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+</head>
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <a href="/welcome" class="btn btn-warning">Pagina Principal</a>
+        <a href="/welcome" style="margin-left: 10px" class="btn btn-secondary my-2 my-sm-0 float-right">Nuevo Post</a>
+    </nav>
+</header>
+<body>
+<section class="main container" th:each="user: ${users}">
+    <a th:href="${ '/user/' + user.username} "><h1 th:text="${user.username}"></h1></a>
+
+    <section class="main container" th:each="post : ${postList}">
+        <article class="publicacion clearfix">
+            <div class="card">
+                <h2 class="publicacion-tittle">
+                    <a class="card-title" target="_blank"  th:href="@{'http://' + ${post.link}}" th:text="${post.link}"></a>
+                </h2>
+                <p class="card-text"  th:text="${post.text}">
+                </p>
+                <div class="contenedor-botones">
+                    <a href="#" class="btn btn-primary" th:href="${'/editPost/' + post.id}">Editar</a>
+                    <a href="#" class="btn btn-warning" th:href="${'/deletePost/' + post.id}"> Eliminar</a>
+                </div>
+            </div>
+        </article>
+    </section>
+</section>
+
+</body>
+</html>

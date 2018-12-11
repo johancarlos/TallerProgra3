@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <a href="/admin" class="btn btn-warning">GO BACK TO HOMEPAGE</a>
+        <a href="/createCategoryForm" style="margin-left: 10px" class="btn btn-warning">CREAR NUEVA CATEGORIA</a>
+    </nav>
+</header>
+<body>
+<div class="container">
+    <br>
+    <table class="table">
+        <thead>
+        <th>Id</th>
+        <th>Category</th>
+        <th>Options</th>
+        </thead>
+        <tbody>
+        <tr th:each="category:${categoryList}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a th:href="@{/categories/edit/}+${category.id}" class="btn btn-primary">Editar</a>
+                <a th:href="@{/categories/delete/}+${category.id}" class="btn btn-danger">Borrar</a>
+            </td>
+        </tr>
+        </tbody>
+        <!-- <a href="/createCategoryForm" class="btn btn-warning">CREAR NUEVA CATEGORIA</a> -->
+    </table>
+</div>
+</body>
+</html>

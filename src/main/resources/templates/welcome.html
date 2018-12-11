@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+    $("document").ready(
+        function () {
+            console.log("aaa");
+        }
+    )
+</script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    css {
+        width: 100%;
+        height: 100%;
+    }
+    /*#workarea {*/
+        /*position: absolute;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*background-color: white;*/
+        /*font-family: Raleway;*/
+    /*}*/
+
+    #personal {
+        color:white;
+        text-decoration:none;
+        position:absolute;
+        bottom:15px;
+        right:2%;
+    }
+    .spot {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    /*
+        This is the outer svg wrapper that the SVG itself will
+        fill. Multiple svg-wrapper classes can be put side by side.
+    */
+
+    .svg-wrapper {
+        margin-top: 0;
+        position: relative;
+        width: 150px;
+        /*make sure to use same height/width as in the html*/
+        height: 40px;
+        display: inline-block;
+        border-radius: 3px;
+        margin-left: 5px;
+        margin-right: 5px
+    }
+    /*
+      This is where we define the fill, color, thickness,
+      and stroke pattern of the SVG when there is no hover.
+      The dasharray and offset together define the line position
+      under the words. Here's also where the transition speed is set.
+    */
+
+    #shape {
+        stroke-width: 12px;
+        fill: transparent;
+        stroke: #009FFD;
+        stroke-dasharray: 85 400;
+        stroke-dashoffset: -220;
+        transition: 1s all ease;
+    }
+    /*
+        Pushing the text up into the SVG. Without this the
+        text would be below the div's.
+    */
+
+    #text {
+        margin-top: -35px;
+        text-align: center;
+    }
+
+    #text a {
+        color: black;
+        text-decoration: none;
+        font-weight: 100;
+        font-size: 1.1em;
+    }
+    /*
+        Changing the shape on hover. I change the color of the stroke,
+    make it thinner, then set it to again wrap around the entire parent element.
+    */
+
+    .svg-wrapper:hover #shape {
+        stroke-dasharray: 50 0;
+        stroke-width: 3px;
+        stroke-dashoffset: 0;
+        stroke: #06D6A0;
+    }
+</style>
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+            <a class="btn btn-success my-2 my-sm-0 float-right" style="margin-left: 10px" role= "button" href="/logout">
+                <span th:text="${username}"></span></a>
+        </form>
+        <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+            <a class="btn btn-secondary my-2 my-sm-0 float-right" style="margin-left: 10px" role= "button" th:href="${'/newPost/' + userLooged}">New Post</a>
+        </form>
+        <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+            <a class="btn btn-secondary my-2 my-sm-0 float-right" style="margin-left: 10px" role= "button" th:href="${ '/user/profile/' + userLooged}" >Perfil</a>
+        </form>
+    </nav>
+</header>
+
+</br>
+
+<section class="main container">
+    <h3>Ordenar por:</h3>
+
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-secondary">Votos</button>
+
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categoria:
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" >
+                <a class="dropdown-item" href="#" ></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</br>
+
+    <section class="main container" th:each="post : ${postList}">
+        <div th:if="${hidenPost.findHidedPostByUserId(userLooged, post.id)} == null">
+            <div class="card" th:if="${!post.link.contains('localhost')}" th:id="${post.id}">
+                <a th:href="${ '/user/profile/' + post.getUser().getId()} "><h5 class="card-header" th:text="${postService.getPostUserName(post.getUser().getId())}"></h5></a>
+                <button type="button" class="btn btn-dark" th:onclick="'hidePost(\'' + ${post.id} + '\',\''+${userLooged}+'\')'">Hide</button>
+                <div class="card-body">
+                    <h5 class="card-title"><a target="_blank"  th:href="@{'http://' + ${post.link}}" th:text="${post.link}"></a></h5>
+                    <p class="card-text" th:text="${post.text}"></p>
+                    <small class="form-text text-muted">Karma: <p id="karma1" th:text="${post.getLikes()}"></p> </small>
+
+                    <a class="btn btn-primary" th:onclick="'like1(\'' + ${post.id} + '\',\''+${userLooged}+'\')'">UP</a>
+                    <a class="btn btn-primary" th:onclick="'unlike1(\'' + ${post.id} + '\',\''+${userLooged}+'\')'">DOWN</a>
+
+                    <a th:href="${'/post/' + post.id + '/' + userLooged}" class="btn btn-warning"> COMENTARIOS</a>
+                    <div class="svg-wrapper">
+                        <svg height="40" width="150" xmlns="http://www.w3.org/2000/svg">
+                            <rect id="shape" height="40" width="150" class="svg-wrapper"/>
+                            <div id="text" th:if="${reportedPost.findUserByStatusAndNameNamedParams(userLooged, post.id)} == null">
+                                <a class="report-button" th:onclick="'reportPost(\'' + ${post.id} + '\',\''+${userLooged}+'\')'" ><span class="spot"></span><b>Report</b></a>
+                            </div>
+                            <div id="text" th:if="${reportedPost.findUserByStatusAndNameNamedParams(userLooged, post.id)}">
+                                <a class="report-button" ><span class="spot"></span><b>Reported</b></a>
+                            </div>
+                        </svg>
+                    </div>
+                    <div id="text" th:if="${favoritePost.findUserByStatusAndNameNamedParams(post.id,userLooged)} == null">
+                        <a class="btn btn-primary" th:href="${ '/post/favoritpost/' + post.getId() + '/' + userLooged } "><b> Mark as favorite</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </br>
+        <div class="card" th:if="${post.link.contains('localhost')}" th:id="${post.id}">
+            <a th:href="${ '/user/profile/' + post.getUser().getId()} "><h5 class="card-header" th:text="${postService.getPostUserName(post.getUser().getId())}"></h5></a>
+            <button type="button" class="btn btn-dark" th:onclick="'hidePost(\'' + ${post.id} + '\',\''+${userLooged}+'\')'" >Hide</button>
+            <div class="card-body">
+                <img  th:href="@{'http://' + ${post.link}}" width="250" height="250">
+                <h5 class="card-title"><a target="_blank"  th:href="@{'http://' + ${post.link}}" th:text="${post.link}"></a></h5>
+                <p class="card-text" th:text="${post.text}"></p>
+                <small class="form-text text-muted">Karma: <p id="karma" th:text="${post.getLikes()}"></p> </small>
+                <a th:onclick="'like(\'' + ${post.id} + '\',\''+${userLooged}+'\')'" class="btn btn-primary">UP</a>
+                <a class="btn btn-primary" th:onclick="'unlike(\'' + ${post.id} + '\',\''+${userLooged}+'\')'" >DOWN</a>
+                <a th:href="${'/post/' + post.id + '/' + userLooged}" class="btn btn-warning"> COMENTARIOS</a>
+                <div class="svg-wrapper">
+                    <svg height="40" width="150" xmlns="http://www.w3.org/2000/svg">
+                        <rect id="shape" height="40" width="150" class="svg-wrapper"/>
+                        <div id="text" th:if="${reportedPost.findUserByStatusAndNameNamedParams(userLooged, post.id)} == null">
+                            <a class="report-button" th:onclick="'reportPost(\'' + ${post.id} + '\',\''+${userLooged}+'\')'" ><span class="spot"></span><b>Report</b></a>
+                        </div>
+                        <div id="text" th:if="${reportedPost.findUserByStatusAndNameNamedParams(userLooged, post.id)}">
+                            <a class="report-button" ><span class="spot"></span><b>Reported</b></a>
+                        </div>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script type="text/javascript" th:src="@{/js/client.js}"></script>
+<script>
+    $("document").ready(
+        addEventsToUserHomePage()
+    );
+
+</script>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</html>

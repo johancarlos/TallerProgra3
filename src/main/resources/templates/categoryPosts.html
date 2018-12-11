@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+            <a class="btn btn-warning" role= "button" href="/welcome">Go Back HomePage</a>
+        </form>
+    </nav>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</header>
+<body>
+<br>
+<div class="container">
+    <h1 th:text="${category.name}"></h1>
+    <br>
+    <table class="table">
+        <thead>
+        <th>Id</th>
+        <th>Text</th>
+        <th>Link</th>
+        <th>Likes</th>
+        </thead>
+        <tbody>
+        <tr th:each="post:${category.posts}">
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.link}"></td>
+            <td th:text="${post.text}"></td>
+            <td th:text="${post.likes}"></td>
+            <td>
+                <!--a th:href="@{/editPost/}+${post.id}" class="btn btn-primary">Editar</a-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

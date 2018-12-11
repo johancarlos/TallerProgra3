@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>vista post selecionado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!--meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+</head>
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <h4>Posts SELECCIONADO</h4>
+    </nav>
+</header>
+<body>
+<div class="container">
+    <h3>LINK: </h3><a th:text="${post.link}"></a> <br/>
+     <b>TEXTO</b><p th:text="${post.text}"></p>
+    <b>Comentarios:</b>
+    <div class="container">
+        <table class="table">
+            <div th:each="comment:${post.comments}" id="comentscontainer">
+                <span th:text="${comment.text}"></span><br>
+                <b th:text="${comment.likes}">LIKE:  </b><br>
+                <a th:href="${'/commentlike/' + comment.id + '/' + post.id + '/' + uid}" class="btn btn-primary">like</a>
+                <a th:href="${'/commentdislike/' + comment.id + '/' + post.id + '/' + uid}"class="btn btn-danger">dislike</a>
+            </div>
+        </table>
+    <br>
+    <b>Add comentario:</b>
+    <form action="/comment-rest" method="POST" id="postcomment">
+        <input type="hidden" name="post" th:value="${post.id}">
+        <textarea name="text" id="text" cols="50" rows="2"></textarea>
+        <br>
+        <input type="submit" class="btn btn-info" value="COMENTAR">
+        <a href="/welcome" class="btn btn-warning">VOLVER</a>
+        <br>
+        <input type="hidden" name="value1" id="value1" th:value="${uid}"/>
+    </form>
+    </div>
+</div>
+</body>
+<script>
+    var frm = $('#postcomment');
+
+    frm.submit(function (e) {
+
+        e.preventDefault();
+
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                //var c = "<span th:text=\" + data.text +"></span><br>";
+                var k = "<span>" + data.text +"</span>";
+                var b = "<br>"
+                var a = "<b>" + "LIKE:" + data.likes + "</b><br>"
+                var i = "<a href=" + "/commentlike/" + data.id + "/" + data.post + "/" + data.user + " class=\"btn btn-primary\">like</a>"
+                var j = "<a href=" + "/commentdislike/" + data.id + "/" + data.post + "/" + data.user + " class=\"btn btn-danger\">dislike</a>"
+                console.log(data.post);
+                $("#comentscontainer").append("<br>");
+                $("#comentscontainer").append(k)
+                $("#comentscontainer").append(b)
+                $("#comentscontainer").append(a)
+                $("#comentscontainer").append(i)
+                $("#comentscontainer").append(j)
+            },
+            error: function (data) {
+                console.log("----");
+                console.log(data);
+            },
+        });
+    });
+</script>
+</html>

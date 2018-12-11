@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="svg-injector.min.js"></script>
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <style>
+        .name-title{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+            <a href="/welcome" class="btn btn-warning" >Pagina Principal</a>
+            <a class="btn btn-warning ml-auto" th:href="${ 'favoritePost/' + userLogged}">Favoritos</a>
+            <a class="btn btn-info">
+                KARMA <span class="badge badge-dark" th:text="${karma}"></span>
+            </a>
+        </nav>
+    </header>
+    <section>
+        <div>
+           <h2 class="name-title"><strong><p th:text="${user}"></p></strong></h2>
+        </div>
+    </section>
+
+   <!-- <section>
+        <div class="alert alert-danger" role="alert">
+            Karma <strong></strong>
+            <strong><p th:text="${karma}"></p></strong>
+        </div>
+    </section>
+
+     th:if="${post.getUser().getId() == user
+    -->
+
+
+    <section class="main container" th:each="post : ${postList}" >
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <!--<a class="nav-link active" href="#">Active</a>-->
+                            <strong><a target="_blank"  class="nav-link" th:href="${ '/user/profile/' + post.getUser().getId()}" th:text="${user}"></a></strong>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" th:href="${'/editPost/' + post.id}">Editar</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" th:href="${'/deletePost/' + post.id}"> Eliminar</a>
+                        </li>
+                        <li>
+                            <a class="nav-link disabled" href="#"></a>
+                        </li>
+                        <li>
+                            <a href="" class="nav-link">mark as favorite</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title"><a target="_blank"  th:href="@{'http://' + ${post.link}}" th:text="${post.link}"></a></h5>
+                    <p class="card-text"  th:text="${post.text}"> </p>
+                    <small class="form-text text-muted">Karma: <p th:text="${post.getLikes()}"></p> </small>
+                    <div class="contenedor-botones">
+                    <!--    <a href="#" class="btn btn-primary" th:href="${'/editPost/' + post.id}">Editar</a>
+                        <a href="#" class="btn btn-warning" th:href="${'/deletePost/' + post.id}"> Eliminar</a>
+                        <br/>
+                       -->
+                        <br/>
+                        <a class="btn btn-primary" th:href="${'/postlike/' + post.id}">UP</a>
+                        <a class="btn btn-primary" th:href="${'/postunlike/' + post.id}">DOWN</a>
+                        <a th:href="${'/post/' + post.id + '/' + user}" class="btn btn-warning"> COMENTARIOS</a>
+
+                        <div class="svg-wrapper">
+                            <svg height="40" width="150" xmlns="http://www.w3.org/2000/svg">
+                                <div>
+                                    <a class="report-button" ><span class="spot"></span><b>Reported</b></a>
+                                </div>
+                            </svg>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        <br/>
+    </section>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<!--ESTE ES EL CODIGO PARA LA PARTE SUPERIOR DE LA PAGINA (HEADer)-->
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+            <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+                <a class="btn btn-secondary my-2 my-sm-0 float-right" role= "button" href="/register">Register</a>
+            </form>
+        <div class="col-md-push-6">
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-secondary my-2 my-sm-0 float-right" style="margin-left: 10px" role= "button"  href="/login">Log In</a>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<section class="main container" th:each="post : ${postList}">
+    <div class="row"> </div>
+
+    <section class="col-md-12">
+        <article class="publicacion clearfix">
+            <h2 class="publicacion-tittle" >
+                <p th:text="${post.link}"></p>
+            </h2>
+            <p class="publicacion-contenido text-justify" th:text="${post.text}">
+
+            </p>
+
+        </article>
+        <hr />
+    </section>
+</section>
+
+<!--Termina la seccion de posts-->
+<!--termina inferor pagina-->
+<script type="text/javascript" th:src="@{/js/client.js}"></script>
+<script>
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

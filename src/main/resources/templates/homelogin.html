@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap-3.3.7/css/estilos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>HomeLogin</title>
+</head>
+<body>
+<!--ESTE ES EL CODIGO PARA LA PARTE SUPERIOR DE LA PAGINA (HEADer)-->
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3  navbar-left">
+                    <a href="#">
+                        <img src="./img/logo.png" alt="">
+                    </a>
+                </div>
+
+
+                <div class="col-md-6" style="text-align:center;">
+                    <div class="xxxx">
+                        <select class="input-select"> <!--th:field="#" -->
+                            <option th:value="${null}" selected> selecciona un castegoria...</option>
+                            <!--<div th:each="#">
+                                <option th:value="#" th:text="#"></option>
+                            </div>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 navbar-right">
+                    <div class="header-ctn ">
+
+                        <div>
+                            <a href="#">
+                                <i class="fa fa-user"></i>
+                                <span>NOMBRE USUARIO</span>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<!--ACA TERMINA EL CODIFO (HEADER)-->
+
+<!--Esta es la seccion donde se CREA UN nuevo post-->>
+<section class="main container">
+    <div class="row"> </div>
+    <section class="col-md-12">
+        <center>
+        <div class="contenedor-botones">
+            <a href="#" class="btn btn-primary">CREAR POST</a>
+        </div>
+        </center>
+    </section>
+</section>
+<!--Termina la seccion de crear posts-->>
+
+<div class="footer">
+    <p>PROYECTO TALLER PROGRAMACION </p>
+</div>
+
+<script src="C:/Users/Jorge/Downloads/web/bootstrap-3.3.7/bootstrap-3.3.7/jquery.js"></script>
+<script src="C:/Users/Jorge/Downloads/web/bootstrap-3.3.7/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

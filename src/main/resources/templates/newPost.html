@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+    }
+    .tabs {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    #tab-button {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    #tab-button li {
+        display: table-cell;
+        width: 20%;
+    }
+    #tab-button li a {
+        display: block;
+        padding: .5em;
+        background: #eee;
+        border: 1px solid #ddd;
+        text-align: center;
+        color: #000;
+        text-decoration: none;
+    }
+    #tab-button li:not(:first-child) a {
+        border-left: none;
+    }
+    #tab-button li a:hover,
+    #tab-button .is-active a {
+        border-bottom-color: transparent;
+        background: #fff;
+    }
+    .tab-contents {
+        padding: .5em 2em 1em;
+        border: 1px solid #ddd;
+    }
+
+
+
+    .tab-button-outer {
+        display: none;
+    }
+    .tab-contents {
+        margin-top: 20px;
+    }
+    @media screen and (min-width: 768px) {
+        .tab-button-outer {
+            position: relative;
+            z-index: 2;
+            display: block;
+        }
+        .tab-select-outer {
+            display: none;
+        }
+        .tab-contents {
+            position: relative;
+            top: -1px;
+            margin-top: 0;
+        }
+    }
+    .progress { display: none; }
+</style>
+<header>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <form class="form-inline my-2 my-lg-0 glyphicon-align-right">
+            <a class="btn btn-warning" role= "button" href="/user/posts">Go Back To Post</a>
+        </form>
+    </nav>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</header>
+<body>
+<div class="tabs">
+    <div class="tab-button-outer">
+        <ul id="tab-button">
+            <li><a href="#tab01">POST LINK</a></li>
+            <li><a href="#tab02">POST IMAGE</a></li>
+        </ul>
+    </div>
+    <div class="tab-select-outer">
+        <select id="tab-select">
+            <option value="#tab01">NEW POST</option>
+            <option value="#tab02">NEW IMAGE</option>
+        </select>
+    </div>
+
+    <div id="tab01" class="tab-contents">
+        <div class="container">
+            <h1>Nuevo Post</h1>
+            <form action="/post" method="POST" class="align-items-center">
+                <input type="hidden" name="user" th:value="${user.id}">
+                <div class="form-group">
+                    <h2>Link</h2>
+                    <input name="link" id="link" class="form-control">
+                    <small  class="form-text text-muted">agregar enlace sin "http://" example: www.google.com</small>
+                </div>
+
+                <div class="form-group">
+                    <b>Categoria:</b>
+                    <select name="category" id="category">
+                        <option th:each= "c : ${categories}"
+                                th:value="${c.id}"
+                                th:text="${c.name}"></option>
+                    </select>
+                </div>
+
+
+                <h2>Texto</h2>
+                <div class="form-group">
+                <textarea name="text" id="text" cols="60" rows="5" class="form-control">
+             </textarea>
+                </div>
+
+                <br>
+                <button type="submit" value="Guardar" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <div id="tab02" class="tab-contents">
+        <div class="container">
+            <h1>New image</h1>
+            <form id="upload-form">
+                <div>
+                    <label for="file">File:</label>
+                    <input type="file" id="file" name="file" />
+                    <progress class="progress" value="0" max="100"></progress>
+                </div>
+                <hr />
+                <input type="submit" value="Submit" />
+            </form>
+            <form action="/post" method="POST" class="align-items-center" enctype="multipart/form-data">
+                <input type="hidden" name="user" th:value="${user.id}">
+                <div class="form-group" style="display: none;">
+                    <input name="link" id="link1" class="form-control">
+                </div>
+                <div class="form-group">
+                    <b>Categoria:</b>
+                    <select name="category" id="category1">
+                        <option th:each= "c : ${categories}"
+                                th:value="${c.id}"
+                                th:text="${c.name}"></option>
+                    </select>
+                </div>
+
+
+                <h2>Texto</h2>
+                <div class="form-group">
+                <textarea name="text" id="text1" cols="60" rows="5" class="form-control">
+             </textarea>
+                </div>
+
+                <br>
+                <button type="submit" value="Guardar" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script>
+    $(document).ready(function(ev) {
+        $("#upload-form").on('submit', (function(ev) {
+            ev.preventDefault();
+            $.ajax({
+                xhr: function() {
+                    var progress = $('.progress'),
+                        xhr = $.ajaxSettings.xhr();
+
+                    progress.show();
+
+                    xhr.upload.onprogress = function(ev) {
+                        if (ev.lengthComputable) {
+                            var percentComplete = parseInt((ev.loaded / ev.total) * 100);
+                            progress.val(percentComplete);
+                            if (percentComplete === 100) {
+                                progress.hide().val(0);
+                            }
+                        }
+                    };
+
+                    return xhr;
+                },
+                url: 'http://localhost:8090/post/upload-image',
+                type: 'POST',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    $("#link1").val(data);
+                },
+                error: function(xhr, status, error) {
+                    // ...
+                }
+            });
+        }));
+    });
+</script>
+<script>
+    $(function() {
+        var $tabButtonItem = $('#tab-button li'),
+            $tabSelect = $('#tab-select'),
+            $tabContents = $('.tab-contents'),
+            activeClass = 'is-active';
+
+        $tabButtonItem.first().addClass(activeClass);
+        $tabContents.not(':first').hide();
+
+        $tabButtonItem.find('a').on('click', function(e) {
+            var target = $(this).attr('href');
+
+            $tabButtonItem.removeClass(activeClass);
+            $(this).parent().addClass(activeClass);
+            $tabSelect.val(target);
+            $tabContents.hide();
+            $(target).show();
+            e.preventDefault();
+        });
+
+        $tabSelect.on('change', function() {
+            var target = $(this).val(),
+                targetSelectNum = $(this).prop('selectedIndex');
+
+            $tabButtonItem.removeClass(activeClass);
+            $tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+            $tabContents.hide();
+            $(target).show();
+        });
+    });
+</script>
+</html>
